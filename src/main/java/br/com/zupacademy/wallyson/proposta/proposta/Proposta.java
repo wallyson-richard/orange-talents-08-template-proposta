@@ -53,4 +53,8 @@ public class Proposta {
     public Long getId() {
         return id;
     }
+
+    public boolean unica(PropostaRepository propostaRepository) {
+        return !propostaRepository.findByDocumento(documento).isEmpty();
+    }
 }

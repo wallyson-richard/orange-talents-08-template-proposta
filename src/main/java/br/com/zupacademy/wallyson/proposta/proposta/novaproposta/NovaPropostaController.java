@@ -1,6 +1,6 @@
 package br.com.zupacademy.wallyson.proposta.proposta.novaproposta;
 
-import br.com.zupacademy.wallyson.proposta.proposta.Proposta;
+import br.com.zupacademy.wallyson.proposta.compartilhado.exceptions.RegistroDuplicadoException;
 import br.com.zupacademy.wallyson.proposta.proposta.PropostaRepository;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,8 +23,13 @@ public class NovaPropostaController {
     }
 
     @PostMapping
-    public ResponseEntity<Proposta> novaProposta(@RequestBody @Valid NovaPropostaRequest request) {
+    public ResponseEntity<?> novaProposta(@RequestBody @Valid NovaPropostaRequest request) {
         var proposta = request.toModel();
+
+        if (proposta.unica(propostaRepository)) {
+            throw new RegistroDuplicadoException("documento", "Documento já existe em nossa base de dados.");
+        }
+
         proposta = propostaRepository.save(proposta);
 
         URI uri = ServletUriComponentsBuilder

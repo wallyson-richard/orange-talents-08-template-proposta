@@ -12,6 +12,11 @@ public class ErrorResponse {
         this.mensagem = fieldError.getDefaultMessage();
     }
 
+    public ErrorResponse(String campo, String mensagem) {
+        this.campo = campo;
+        this.mensagem = mensagem;
+    }
+
     public String getCampo() {
         return campo;
     }

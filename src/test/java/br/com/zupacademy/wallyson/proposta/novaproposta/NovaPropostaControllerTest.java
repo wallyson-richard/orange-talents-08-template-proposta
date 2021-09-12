@@ -1,6 +1,5 @@
 package br.com.zupacademy.wallyson.proposta.novaproposta;
 
-import br.com.zupacademy.wallyson.proposta.exceptionhandler.ErrorResponse;
 import br.com.zupacademy.wallyson.proposta.proposta.novaproposta.NovaPropostaRequest;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.Test;
@@ -13,8 +12,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -64,6 +61,21 @@ public class NovaPropostaControllerTest {
         response.andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$[0].campo").value("salario"))
                 .andExpect(jsonPath("$[0].mensagem").value("deve ser maior ou igual a 0"));
+    }
+
+    @Test
+    void naoDeveCadastrarComDocumentoDuplicado() throws Exception {
+        var request = new NovaPropostaRequest("12193697051", "pessoa@email.com", "Julio",
+                "Rua 10, N° 30", new BigDecimal("200"));
+
+        request = new NovaPropostaRequest("12193697051", "pessoa@email.com", "Julio",
+                "Rua 10, N° 30", new BigDecimal("200"));
+
+        var response = cadastrarNovaProposta(request);
+
+        response.andExpect(status().isUnprocessableEntity())
+                .andExpect(jsonPath("$[0].campo").value("documento"))
+                .andExpect(jsonPath("$[0].mensagem").value("Documento já existe em nossa base de dados."));
     }
 
     private ResultActions cadastrarNovaProposta(Object request) throws Exception {
