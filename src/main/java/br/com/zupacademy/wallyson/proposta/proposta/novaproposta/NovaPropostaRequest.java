@@ -1,6 +1,8 @@
 package br.com.zupacademy.wallyson.proposta.proposta.novaproposta;
 
+import br.com.zupacademy.wallyson.proposta.compartilhado.exceptions.RegistroDuplicadoException;
 import br.com.zupacademy.wallyson.proposta.proposta.Proposta;
+import br.com.zupacademy.wallyson.proposta.proposta.PropostaRepository;
 import br.com.zupacademy.wallyson.proposta.validation.annotation.CpfOrCnpj;
 
 import javax.validation.constraints.Email;
@@ -37,7 +39,13 @@ public class NovaPropostaRequest {
         this.salario = salario;
     }
 
-    public Proposta toModel() {
+    public Proposta toModel(PropostaRepository propostaRepository) {
+        var proposta = propostaRepository.findByDocumento(documento);
+
+        if (!proposta.isEmpty()) {
+            throw new RegistroDuplicadoException("documento", "Documento já existe em nossa base de dados.");
+        }
+
         return new Proposta(documento, email, nome, endereco, salario);
     }
 }

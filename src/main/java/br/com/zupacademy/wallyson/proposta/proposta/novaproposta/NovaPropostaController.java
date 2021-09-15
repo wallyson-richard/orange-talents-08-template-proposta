@@ -1,14 +1,15 @@
 package br.com.zupacademy.wallyson.proposta.proposta.novaproposta;
 
-import br.com.zupacademy.wallyson.proposta.compartilhado.exceptions.RegistroDuplicadoException;
 import br.com.zupacademy.wallyson.proposta.proposta.PropostaRepository;
+import br.com.zupacademy.wallyson.proposta.utils.UriUtils;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.net.URI;
 
@@ -17,27 +18,24 @@ import java.net.URI;
 public class NovaPropostaController {
 
     private final PropostaRepository propostaRepository;
+    private final SituacaoFinanceiraClient situacaoFinanceiraClient;
 
-    private NovaPropostaController(PropostaRepository propostaRepository) {
+
+    public NovaPropostaController(PropostaRepository propostaRepository, SituacaoFinanceiraClient situacaoFinanceiraClient) {
         this.propostaRepository = propostaRepository;
+        this.situacaoFinanceiraClient = situacaoFinanceiraClient;
     }
 
     @PostMapping
-    public ResponseEntity<?> novaProposta(@RequestBody @Valid NovaPropostaRequest request) {
-        var proposta = request.toModel();
+    @Transactional
+    public ResponseEntity<?> novaProposta(@RequestBody @Valid NovaPropostaRequest request) throws JsonProcessingException {
+        var proposta = request.toModel(propostaRepository);
 
-        if (proposta.unica(propostaRepository)) {
-            throw new RegistroDuplicadoException("documento", "Documento já existe em nossa base de dados.");
-        }
+        propostaRepository.save(proposta);
 
-        proposta = propostaRepository.save(proposta);
+        proposta.verificaSituacaoFinanceira(situacaoFinanceiraClient);
 
-        URI uri = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(proposta.getId())
-                .toUri();
-
+        URI uri = UriUtils.gerarUri(proposta.getId());
         return ResponseEntity.created(uri).build();
     }
 }

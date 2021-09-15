@@ -1,11 +1,14 @@
 package br.com.zupacademy.wallyson.proposta.proposta;
 
+import br.com.zupacademy.wallyson.proposta.proposta.novaproposta.SituacaoFinanceiraClient;
+import br.com.zupacademy.wallyson.proposta.proposta.novaproposta.SituacaoFinanceiraRequest;
+import br.com.zupacademy.wallyson.proposta.proposta.novaproposta.SituacaoFinanceiraResponse;
 import br.com.zupacademy.wallyson.proposta.validation.annotation.CpfOrCnpj;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import feign.FeignException;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -37,6 +40,9 @@ public class Proposta {
     @NotNull
     private BigDecimal salario;
 
+    @Enumerated(EnumType.STRING)
+    private StatusProposta status;
+
     @Deprecated
     public Proposta() {
     }
@@ -54,7 +60,31 @@ public class Proposta {
         return id;
     }
 
+    public String getDocumento() {
+        return documento;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setStatus(StatusProposta status) {
+        this.status = status;
+    }
+
     public boolean unica(PropostaRepository propostaRepository) {
         return !propostaRepository.findByDocumento(documento).isEmpty();
+    }
+
+    public void verificaSituacaoFinanceira(SituacaoFinanceiraClient situacaoFinanceiraClient) throws JsonProcessingException {
+        var request = new SituacaoFinanceiraRequest(this);
+        SituacaoFinanceiraResponse response;
+        try {
+            response = situacaoFinanceiraClient.consultar(request);
+        } catch (FeignException exception) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            response = objectMapper.readValue(exception.contentUTF8(), SituacaoFinanceiraResponse.class);
+        }
+        this.setStatus(response.statusProposta());
     }
 }
