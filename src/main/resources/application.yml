@@ -16,4 +16,15 @@ management:
       exposure:
         include: "*"
 
-feign.client.situacao-financeira.url: "http://localhost:9999/api/solicitacao"
+feign:
+  client:
+    situacao-financeira:
+      url: "http://localhost:9999/api/solicitacao"
+    associa-cartao:
+      url: "http://localhost:8888/api/cartoes"
+
+associar:
+  proposta:
+    cartao:
+      time:
+        schedule: "25000"

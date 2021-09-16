@@ -1,5 +1,6 @@
 package br.com.zupacademy.wallyson.proposta.proposta;
 
+import br.com.zupacademy.wallyson.proposta.proposta.associacartao.Cartao;
 import br.com.zupacademy.wallyson.proposta.proposta.novaproposta.SituacaoFinanceiraClient;
 import br.com.zupacademy.wallyson.proposta.proposta.novaproposta.SituacaoFinanceiraRequest;
 import br.com.zupacademy.wallyson.proposta.proposta.novaproposta.SituacaoFinanceiraResponse;
@@ -42,6 +43,9 @@ public class Proposta {
 
     @Enumerated(EnumType.STRING)
     private StatusProposta status;
+
+    @OneToOne(cascade = CascadeType.MERGE, mappedBy = "proposta")
+    private Cartao cartao;
 
     @Deprecated
     public Proposta() {
@@ -86,5 +90,9 @@ public class Proposta {
             response = objectMapper.readValue(exception.contentUTF8(), SituacaoFinanceiraResponse.class);
         }
         this.setStatus(response.statusProposta());
+    }
+
+    public void adicionaCartao(Cartao cartao) {
+        this.cartao = cartao;
     }
 }
