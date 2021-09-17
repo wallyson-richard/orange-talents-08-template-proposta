@@ -22,7 +22,8 @@ public class ConsultaPropostaController {
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
         return propostaRepository.findById(id)
+                .map(PropostaResponse::new)
                 .map(ResponseEntity::ok)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST));
+                .orElse(ResponseEntity.badRequest().build());
     }
 }
