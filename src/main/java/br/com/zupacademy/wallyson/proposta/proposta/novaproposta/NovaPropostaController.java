@@ -14,7 +14,7 @@ import javax.validation.Valid;
 import java.net.URI;
 
 @RestController
-@RequestMapping("propostas")
+@RequestMapping("/api/propostas")
 public class NovaPropostaController {
 
     private final PropostaRepository propostaRepository;

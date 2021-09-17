@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5434/proposta
-    username: postgres
-    password: postgres
+    url: ${URL_DATABASE:jdbc:postgresql://localhost:5434/proposta}
+    username: ${DATABASE_USERNAME:postgres}
+    password: ${DATABASE_PASSWORD:postgres}
   jpa:
     hibernate:
       ddl-auto: create-drop
@@ -16,12 +16,15 @@ management:
       exposure:
         include: "*"
 
+server:
+  port: ${SERVER_PORT:8080}
+
 feign:
   client:
     situacao-financeira:
-      url: "http://localhost:9999/api/solicitacao"
+      url: ${URL_FINANCEIRO:http://localhost:9999/api/solicitacao}
     associa-cartao:
-      url: "http://localhost:8888/api/cartoes"
+      url: ${URL_CARTOES:http://localhost:8888/api/cartoes}
 
 associar:
   proposta:
