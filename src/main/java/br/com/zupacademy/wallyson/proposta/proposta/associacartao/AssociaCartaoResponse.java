@@ -1,5 +1,6 @@
 package br.com.zupacademy.wallyson.proposta.proposta.associacartao;
 
+import br.com.zupacademy.wallyson.proposta.proposta.Cartao;
 import br.com.zupacademy.wallyson.proposta.proposta.Proposta;
 
 import javax.validation.constraints.NotBlank;

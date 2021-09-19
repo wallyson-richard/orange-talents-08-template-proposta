@@ -1,6 +1,5 @@
 package br.com.zupacademy.wallyson.proposta.proposta;
 
-import br.com.zupacademy.wallyson.proposta.proposta.associacartao.Cartao;
 import br.com.zupacademy.wallyson.proposta.proposta.novaproposta.SituacaoFinanceiraClient;
 import br.com.zupacademy.wallyson.proposta.proposta.novaproposta.SituacaoFinanceiraRequest;
 import br.com.zupacademy.wallyson.proposta.proposta.novaproposta.SituacaoFinanceiraResponse;

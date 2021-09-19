@@ -1,7 +1,6 @@
 package br.com.zupacademy.wallyson.proposta.proposta.consultaproposta;
 
-import br.com.zupacademy.wallyson.proposta.proposta.Proposta;
-import br.com.zupacademy.wallyson.proposta.proposta.associacartao.Cartao;
+import br.com.zupacademy.wallyson.proposta.proposta.Cartao;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
