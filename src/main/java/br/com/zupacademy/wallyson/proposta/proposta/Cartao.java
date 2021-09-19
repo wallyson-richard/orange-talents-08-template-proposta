@@ -1,6 +1,4 @@
-package br.com.zupacademy.wallyson.proposta.proposta.associacartao;
-
-import br.com.zupacademy.wallyson.proposta.proposta.Proposta;
+package br.com.zupacademy.wallyson.proposta.proposta;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -41,10 +39,6 @@ public class Cartao {
 
     public Long getId() {
         return id;
-    }
-
-    public Proposta getProposta() {
-        return proposta;
     }
 
     public String getNumero() {

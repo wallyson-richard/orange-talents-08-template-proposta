@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public class AssociaCartaoResponse {
+public class AssociaPropostaCartaoResponse {
 
     @NotBlank
     private String id;

@@ -7,5 +7,5 @@ import org.springframework.web.bind.annotation.PostMapping;
 public interface AssociaPropostaCartaoClient {
 
     @PostMapping
-    AssociaCartaoResponse associaCartao(AssociaPropostaCartaoRequest request);
+    AssociaPropostaCartaoResponse associaCartao(AssociaPropostaCartaoRequest request);
 }

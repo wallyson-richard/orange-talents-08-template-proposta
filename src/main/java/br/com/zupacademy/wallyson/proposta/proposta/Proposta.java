@@ -91,7 +91,7 @@ public class Proposta {
         return cartao;
     }
 
-    public void setStatus(StatusProposta status) {
+    public void alteraStatus(StatusProposta status) {
         this.status = status;
     }
 
@@ -108,7 +108,7 @@ public class Proposta {
             ObjectMapper objectMapper = new ObjectMapper();
             response = objectMapper.readValue(exception.contentUTF8(), SituacaoFinanceiraResponse.class);
         }
-        this.setStatus(response.statusProposta());
+        this.alteraStatus(response.statusProposta());
     }
 
     public void adicionaCartao(Cartao cartao) {

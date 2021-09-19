@@ -40,12 +40,12 @@ public class NovaPropostaRequest {
     }
 
     public Proposta toModel(PropostaRepository propostaRepository) {
-        var proposta = propostaRepository.findByDocumento(documento);
+        var proposta = new Proposta(documento, email, nome, endereco, salario);
 
-        if (!proposta.isEmpty()) {
+        if (proposta.unica(propostaRepository)) {
             throw new RegistroDuplicadoException("documento", "Documento já existe em nossa base de dados.");
         }
 
-        return new Proposta(documento, email, nome, endereco, salario);
+        return proposta;
     }
 }
