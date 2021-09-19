@@ -36,7 +36,7 @@ public class NovaPropostaControllerTest {
 
         response.andExpect(status().isCreated())
                 .andExpect(header().exists("Location"))
-                .andExpect(redirectedUrlPattern("http://localhost/propostas/{id}"));
+                .andExpect(redirectedUrlPattern("http://localhost/api/propostas/{id}"));
     }
 
     @Test
@@ -79,7 +79,7 @@ public class NovaPropostaControllerTest {
     }
 
     private ResultActions cadastrarNovaProposta(Object request) throws Exception {
-        return mockMvc.perform(post("/propostas")
+        return mockMvc.perform(post("/api/propostas")
                 .locale(new Locale("pt", "BR"))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(gson.toJson(request)));
