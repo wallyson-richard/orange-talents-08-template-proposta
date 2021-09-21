@@ -1,6 +1,6 @@
 package br.com.zupacademy.wallyson.proposta.exceptionhandler;
 
-import br.com.zupacademy.wallyson.proposta.compartilhado.exceptions.RegistroDuplicadoException;
+import br.com.zupacademy.wallyson.proposta.compartilhado.exceptions.GenericException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -23,8 +23,8 @@ public class PropostaExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-    @ExceptionHandler(RegistroDuplicadoException.class)
-    public List<ErrorResponse> registroDuplicadoException(RegistroDuplicadoException ex) {
+    @ExceptionHandler(GenericException.class)
+    public List<ErrorResponse> registroDuplicadoException(GenericException ex) {
         return List.of(new ErrorResponse(ex.getCampo(), ex.getMensagem()));
     }
 }
