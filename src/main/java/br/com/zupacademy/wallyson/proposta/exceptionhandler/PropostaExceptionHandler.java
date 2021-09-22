@@ -1,5 +1,6 @@
 package br.com.zupacademy.wallyson.proposta.exceptionhandler;
 
+import br.com.zupacademy.wallyson.proposta.compartilhado.exceptions.ErrorResponse;
 import br.com.zupacademy.wallyson.proposta.compartilhado.exceptions.GenericException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;

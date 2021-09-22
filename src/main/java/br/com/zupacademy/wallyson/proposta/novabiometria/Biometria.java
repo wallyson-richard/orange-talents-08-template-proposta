@@ -1,4 +1,6 @@
-package br.com.zupacademy.wallyson.proposta.proposta;
+package br.com.zupacademy.wallyson.proposta.novabiometria;
+
+import br.com.zupacademy.wallyson.proposta.cartao.Cartao;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

@@ -1,7 +1,9 @@
 package br.com.zupacademy.wallyson.proposta.novabiometria;
 
-import br.com.zupacademy.wallyson.proposta.proposta.*;
-import br.com.zupacademy.wallyson.proposta.proposta.novabiometria.NovaBiometriaRequest;
+import br.com.zupacademy.wallyson.proposta.cartao.Cartao;
+import br.com.zupacademy.wallyson.proposta.cartao.CartaoRepository;
+import br.com.zupacademy.wallyson.proposta.proposta.Proposta;
+import br.com.zupacademy.wallyson.proposta.proposta.PropostaRepository;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -85,7 +87,7 @@ public class NovaBiometriaControllerTest {
     }
 
     private ResultActions cadastrarNovaBiometria(Object request, Long idCartao) throws Exception {
-        var url =  String.format("/api/cartoes/%d/biometrias", idCartao);
+        var url = String.format("/api/cartoes/%d/biometrias", idCartao);
 
         return mockMvc.perform(post(url)
                 .locale(new Locale("pt", "BR"))

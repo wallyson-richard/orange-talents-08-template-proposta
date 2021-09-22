@@ -1,7 +1,6 @@
-package br.com.zupacademy.wallyson.proposta.proposta.novabiometria;
+package br.com.zupacademy.wallyson.proposta.novabiometria;
 
-import br.com.zupacademy.wallyson.proposta.proposta.BiometriaRepository;
-import br.com.zupacademy.wallyson.proposta.proposta.CartaoRepository;
+import br.com.zupacademy.wallyson.proposta.cartao.CartaoRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;

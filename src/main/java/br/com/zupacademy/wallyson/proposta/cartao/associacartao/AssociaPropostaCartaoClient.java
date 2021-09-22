@@ -1,4 +1,4 @@
-package br.com.zupacademy.wallyson.proposta.proposta.associacartao;
+package br.com.zupacademy.wallyson.proposta.cartao.associacartao;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;

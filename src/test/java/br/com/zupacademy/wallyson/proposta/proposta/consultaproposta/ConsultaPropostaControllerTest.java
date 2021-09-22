@@ -1,7 +1,10 @@
-package br.com.zupacademy.wallyson.proposta.consultaproposta;
+package br.com.zupacademy.wallyson.proposta.proposta.consultaproposta;
 
-import br.com.zupacademy.wallyson.proposta.proposta.*;
-import com.google.gson.Gson;
+import br.com.zupacademy.wallyson.proposta.cartao.Cartao;
+import br.com.zupacademy.wallyson.proposta.cartao.CartaoRepository;
+import br.com.zupacademy.wallyson.proposta.proposta.Proposta;
+import br.com.zupacademy.wallyson.proposta.proposta.PropostaRepository;
+import br.com.zupacademy.wallyson.proposta.proposta.StatusProposta;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +37,6 @@ public class ConsultaPropostaControllerTest {
     @Autowired
     CartaoRepository cartaoRepository;
 
-    Gson gson = new Gson();
-
     @BeforeEach
     void setup() {
         cartaoRepository.deleteAll();
@@ -56,16 +57,7 @@ public class ConsultaPropostaControllerTest {
 
         response.andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(proposta.getId()))
-                .andExpect(jsonPath("$.documento").value(proposta.getDocumento()))
-                .andExpect(jsonPath("$.email").value(proposta.getEmail()))
-                .andExpect(jsonPath("$.nome").value(proposta.getNome()))
-                .andExpect(jsonPath("$.endereco").value(proposta.getEndereco()))
-                .andExpect(jsonPath("$.salario").value(proposta.getSalario().doubleValue()))
-                .andExpect(jsonPath("$.status").value(proposta.getStatus().toString()))
-                .andExpect(jsonPath("$.cartao.id").value(cartao.getId()))
-                .andExpect(jsonPath("$.cartao.numero").value(cartao.getNumero()))
-                .andExpect(jsonPath("$.cartao.emititdoEm").exists())
-                .andExpect(jsonPath("$.cartao.limite").value(cartao.getLimite().doubleValue()));
+                .andExpect(jsonPath("$.status").value(proposta.getStatus().toString()));
     }
 
     @Test

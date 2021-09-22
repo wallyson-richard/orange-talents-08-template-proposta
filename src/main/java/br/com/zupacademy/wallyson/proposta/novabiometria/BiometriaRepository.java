@@ -1,4 +1,4 @@
-package br.com.zupacademy.wallyson.proposta.proposta;
+package br.com.zupacademy.wallyson.proposta.novabiometria;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

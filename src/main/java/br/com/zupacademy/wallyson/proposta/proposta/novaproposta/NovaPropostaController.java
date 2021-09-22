@@ -20,7 +20,6 @@ public class NovaPropostaController {
     private final PropostaRepository propostaRepository;
     private final SituacaoFinanceiraClient situacaoFinanceiraClient;
 
-
     public NovaPropostaController(PropostaRepository propostaRepository, SituacaoFinanceiraClient situacaoFinanceiraClient) {
         this.propostaRepository = propostaRepository;
         this.situacaoFinanceiraClient = situacaoFinanceiraClient;

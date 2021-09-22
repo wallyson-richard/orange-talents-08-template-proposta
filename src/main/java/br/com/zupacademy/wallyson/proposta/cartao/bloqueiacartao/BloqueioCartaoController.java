@@ -1,7 +1,7 @@
-package br.com.zupacademy.wallyson.proposta.proposta.bloqueiacartao;
+package br.com.zupacademy.wallyson.proposta.cartao.bloqueiacartao;
 
+import br.com.zupacademy.wallyson.proposta.cartao.CartaoRepository;
 import br.com.zupacademy.wallyson.proposta.compartilhado.exceptions.RegraDeNegocioException;
-import br.com.zupacademy.wallyson.proposta.proposta.CartaoRepository;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

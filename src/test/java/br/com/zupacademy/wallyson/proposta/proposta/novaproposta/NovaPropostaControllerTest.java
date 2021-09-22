@@ -1,6 +1,5 @@
-package br.com.zupacademy.wallyson.proposta.novaproposta;
+package br.com.zupacademy.wallyson.proposta.proposta.novaproposta;
 
-import br.com.zupacademy.wallyson.proposta.proposta.novaproposta.NovaPropostaRequest;
 import com.google.gson.Gson;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

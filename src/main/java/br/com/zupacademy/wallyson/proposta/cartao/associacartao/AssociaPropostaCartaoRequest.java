@@ -1,4 +1,4 @@
-package br.com.zupacademy.wallyson.proposta.proposta.associacartao;
+package br.com.zupacademy.wallyson.proposta.cartao.associacartao;
 
 import br.com.zupacademy.wallyson.proposta.proposta.Proposta;
 

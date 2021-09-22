@@ -1,6 +1,7 @@
-package br.com.zupacademy.wallyson.proposta.proposta;
+package br.com.zupacademy.wallyson.proposta.cartao;
 
-import br.com.zupacademy.wallyson.proposta.proposta.bloqueiacartao.StatusCartao;
+import br.com.zupacademy.wallyson.proposta.cartao.bloqueiacartao.StatusCartao;
+import br.com.zupacademy.wallyson.proposta.proposta.Proposta;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;

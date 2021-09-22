@@ -1,7 +1,6 @@
-package br.com.zupacademy.wallyson.proposta.proposta.novabiometria;
+package br.com.zupacademy.wallyson.proposta.novabiometria;
 
-import br.com.zupacademy.wallyson.proposta.proposta.Biometria;
-import br.com.zupacademy.wallyson.proposta.proposta.Cartao;
+import br.com.zupacademy.wallyson.proposta.cartao.Cartao;
 
 import javax.validation.constraints.NotBlank;
 
@@ -24,5 +23,5 @@ public class NovaBiometriaRequest {
 
     public Biometria toModel(Cartao cartao) {
         return new Biometria(fingerprint, cartao);
-     }
+    }
 }
