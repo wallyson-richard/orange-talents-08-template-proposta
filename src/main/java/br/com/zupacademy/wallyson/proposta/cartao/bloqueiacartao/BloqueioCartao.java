@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 @Entity
-public class StatusCartao implements Comparable<StatusCartao> {
+public class BloqueioCartao implements Comparable<BloqueioCartao> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,7 +20,7 @@ public class StatusCartao implements Comparable<StatusCartao> {
     private String userAgent;
 
     @Enumerated(EnumType.STRING)
-    private SituacaoCartao situacao;
+    private StatusNotificacaoBloqueioCartao situacao;
 
     @ManyToOne
     private Cartao cartao;
@@ -28,25 +28,25 @@ public class StatusCartao implements Comparable<StatusCartao> {
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @Deprecated
-    public StatusCartao() {
+    public BloqueioCartao() {
     }
 
-    public StatusCartao(String enderecoIp, String userAgent, Cartao cartao) {
+    public BloqueioCartao(String enderecoIp, String userAgent, Cartao cartao) {
         this.enderecoIp = enderecoIp;
         this.userAgent = userAgent;
         this.cartao = cartao;
     }
 
     public void alteraStatusParaBloqueado() {
-        this.situacao = SituacaoCartao.BLOQUEADO;
+        this.situacao = StatusNotificacaoBloqueioCartao.BLOQUEADO;
     }
 
     public boolean isBloqueado() {
-        return this.situacao == SituacaoCartao.BLOQUEADO;
+        return this.situacao == StatusNotificacaoBloqueioCartao.BLOQUEADO;
     }
 
     @Override
-    public int compareTo(StatusCartao operacao) {
+    public int compareTo(BloqueioCartao operacao) {
         return this.id > operacao.id ? -1 : 1;
     }
 }

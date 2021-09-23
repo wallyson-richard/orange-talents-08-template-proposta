@@ -1,4 +1,4 @@
-package br.com.zupacademy.wallyson.proposta.compartilhado.exceptions;
+package br.com.zupacademy.wallyson.proposta.compartilhado.response;
 
 import org.springframework.validation.FieldError;
 

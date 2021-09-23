@@ -14,7 +14,8 @@ public class AssociaPropostaCartao {
 
     private final PropostaRepository propostaRepository;
     private final AssociaPropostaCartaoClient associaPropostaCartaoClient;
-    private Logger log = LoggerFactory.getLogger(AssociaPropostaCartao.class);
+
+    private final Logger logger = LoggerFactory.getLogger(AssociaPropostaCartao.class);
 
     public AssociaPropostaCartao(PropostaRepository propostaRepository, AssociaPropostaCartaoClient associaPropostaCartaoClient) {
         this.propostaRepository = propostaRepository;
@@ -25,7 +26,7 @@ public class AssociaPropostaCartao {
     public void associa() {
         var propostas = propostaRepository.findByStatusAndCartaoIsNull(StatusProposta.ELEGIVEL);
 
-        log.info(String.format("Existem %d propostas elegíveis que ainda não possuem cartão de crédito associado",
+        logger.info(String.format("Existem %d propostas elegíveis que ainda não possuem cartão de crédito associado",
                 propostas.size()));
 
         propostas.forEach(proposta -> {
@@ -35,11 +36,12 @@ public class AssociaPropostaCartao {
                 var cartao = response.toModel(proposta);
                 proposta.adicionaCartao(cartao);
                 propostaRepository.save(proposta);
-                log.info("Cartão ############{} foi associado a proposta de id {}",
+                logger.info("Cartão {} foi associado a proposta de id {}",
                         OfuscamentoUtil.cartao(cartao.getNumero()),
                         proposta.getId());
             } catch (FeignException exception) {
-                exception.printStackTrace();
+                logger.warn("Erro ao associar a proposta de ID {} a um cartão. Uma nova tentativa será feita em breve",
+                        proposta.getId());
             }
         });
     }

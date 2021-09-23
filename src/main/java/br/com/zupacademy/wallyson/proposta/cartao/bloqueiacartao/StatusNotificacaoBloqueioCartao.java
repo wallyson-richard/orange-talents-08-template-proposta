@@ -1,6 +1,6 @@
 package br.com.zupacademy.wallyson.proposta.cartao.bloqueiacartao;
 
-public enum SituacaoCartao {
+public enum StatusNotificacaoBloqueioCartao {
     BLOQUEADO,
-    DESBLOQUEADO
+    FALHA
 }

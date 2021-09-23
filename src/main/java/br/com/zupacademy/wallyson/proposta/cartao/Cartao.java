@@ -1,6 +1,6 @@
 package br.com.zupacademy.wallyson.proposta.cartao;
 
-import br.com.zupacademy.wallyson.proposta.cartao.bloqueiacartao.StatusCartao;
+import br.com.zupacademy.wallyson.proposta.cartao.bloqueiacartao.BloqueioCartao;
 import br.com.zupacademy.wallyson.proposta.proposta.Proposta;
 
 import javax.persistence.*;
@@ -32,7 +32,7 @@ public class Cartao {
     private BigDecimal limite;
 
     @OneToMany(mappedBy = "cartao", cascade = {CascadeType.MERGE, CascadeType.REMOVE})
-    List<StatusCartao> operacoesBloqueioCartao = new ArrayList<>();
+    List<BloqueioCartao> operacoesBloqueioCartao = new ArrayList<>();
 
     @Deprecated
     public Cartao() {
@@ -65,17 +65,17 @@ public class Cartao {
         return limite;
     }
 
-    public List<StatusCartao> getOperacoesBloqueioCartao() {
+    public List<BloqueioCartao> getOperacoesBloqueioCartao() {
         return operacoesBloqueioCartao;
     }
 
-    public void adicionaBloqueio(StatusCartao status) {
+    public void adicionaBloqueio(BloqueioCartao status) {
         status.alteraStatusParaBloqueado();
         this.operacoesBloqueioCartao.add(status);
     }
 
     public boolean estaBloqueado() {
-        this.getOperacoesBloqueioCartao().sort(StatusCartao::compareTo);
+        this.getOperacoesBloqueioCartao().sort(BloqueioCartao::compareTo);
         var cartaoJaFoiBloqueado = this.getOperacoesBloqueioCartao().size() > 0;
         return cartaoJaFoiBloqueado && this.getOperacoesBloqueioCartao().get(0).isBloqueado();
     }

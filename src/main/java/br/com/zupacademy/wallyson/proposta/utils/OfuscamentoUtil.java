@@ -13,6 +13,6 @@ public class OfuscamentoUtil {
     }
 
     public static String cartao(String cartao) {
-        return String.format("############%s", cartao.replace("-", "").substring(12));
+        return String.format("############%s", cartao.replaceAll("[^0-9]", "").substring(12));
     }
 }
