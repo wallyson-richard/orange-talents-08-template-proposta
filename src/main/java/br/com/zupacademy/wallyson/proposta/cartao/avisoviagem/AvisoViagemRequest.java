@@ -1,7 +1,6 @@
 package br.com.zupacademy.wallyson.proposta.cartao.avisoviagem;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
+import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
@@ -12,7 +11,7 @@ public class AvisoViagemRequest {
     private String destino;
 
     @NotNull
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    @FutureOrPresent
     private LocalDate terminoViagem;
 
     public AvisoViagemRequest(String destino, LocalDate terminoViagem) {

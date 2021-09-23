@@ -21,12 +21,12 @@ import javax.servlet.http.HttpServletRequest;
 public class BloqueioCartaoController {
 
     private final CartaoRepository cartaoRepository;
-    private final NotificaBloqueioCartaoContas notificadorBloqueio;
+    private final NotificaBloqueioCartao notificadorBloqueio;
 
     private final Logger logger = LoggerFactory.getLogger(BloqueioCartaoController.class);
 
     public BloqueioCartaoController(CartaoRepository cartaoRepository,
-                                    NotificaBloqueioCartaoContas notificadorBloqueio) {
+                                    NotificaBloqueioCartao notificadorBloqueio) {
         this.cartaoRepository = cartaoRepository;
         this.notificadorBloqueio = notificadorBloqueio;
     }

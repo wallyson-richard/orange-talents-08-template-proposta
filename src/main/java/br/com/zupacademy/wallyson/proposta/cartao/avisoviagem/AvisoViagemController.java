@@ -1,6 +1,9 @@
 package br.com.zupacademy.wallyson.proposta.cartao.avisoviagem;
 
 import br.com.zupacademy.wallyson.proposta.cartao.CartaoRepository;
+import br.com.zupacademy.wallyson.proposta.utils.OfuscamentoUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,9 +20,13 @@ import javax.validation.Valid;
 public class AvisoViagemController {
 
     private final CartaoRepository cartaoRepository;
+    private final NotificaAvisoViagem notificaAvisoViagem;
 
-    public AvisoViagemController(CartaoRepository cartaoRepository) {
+    private final Logger logger = LoggerFactory.getLogger(AvisoViagemController.class);
+
+    public AvisoViagemController(CartaoRepository cartaoRepository, NotificaAvisoViagem notificaAvisoViagem) {
         this.cartaoRepository = cartaoRepository;
+        this.notificaAvisoViagem = notificaAvisoViagem;
     }
 
     @PostMapping("/api/cartoes/{id}/viagem")
@@ -33,8 +40,14 @@ public class AvisoViagemController {
         var userAgent = request.getHeader(HttpHeaders.USER_AGENT);
 
         var avisoViagem = avisoViagemRequest.toModel(remoteAddress, userAgent);
-        cartao.adicionaAviso(avisoViagem);
 
-        cartaoRepository.save(cartao);
+        var responseNotificao = notificaAvisoViagem.processar(cartao.getNumero(), avisoViagem);
+
+        if (responseNotificao.getResultado() == StatusAvisoViagem.CRIADO) {
+            logger.info("A notificação da viagem do cartão {} foi realizada com sucesso",
+                    OfuscamentoUtil.cartao(cartao.getNumero()));
+            cartao.adicionaAviso(avisoViagem);
+            cartaoRepository.save(cartao);
+        }
     }
 }

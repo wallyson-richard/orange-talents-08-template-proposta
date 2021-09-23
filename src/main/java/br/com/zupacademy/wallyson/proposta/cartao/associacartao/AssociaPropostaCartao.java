@@ -1,5 +1,6 @@
 package br.com.zupacademy.wallyson.proposta.cartao.associacartao;
 
+import br.com.zupacademy.wallyson.proposta.cartao.ApiCartoes;
 import br.com.zupacademy.wallyson.proposta.proposta.PropostaRepository;
 import br.com.zupacademy.wallyson.proposta.proposta.StatusProposta;
 import br.com.zupacademy.wallyson.proposta.utils.OfuscamentoUtil;
@@ -13,13 +14,13 @@ import org.springframework.stereotype.Service;
 public class AssociaPropostaCartao {
 
     private final PropostaRepository propostaRepository;
-    private final AssociaPropostaCartaoClient associaPropostaCartaoClient;
+    private final ApiCartoes apiCartoes;
 
     private final Logger logger = LoggerFactory.getLogger(AssociaPropostaCartao.class);
 
-    public AssociaPropostaCartao(PropostaRepository propostaRepository, AssociaPropostaCartaoClient associaPropostaCartaoClient) {
+    public AssociaPropostaCartao(PropostaRepository propostaRepository, ApiCartoes apiCartoes) {
         this.propostaRepository = propostaRepository;
-        this.associaPropostaCartaoClient = associaPropostaCartaoClient;
+        this.apiCartoes = apiCartoes;
     }
 
     @Scheduled(fixedDelayString = "${associar.proposta.cartao.time.schedule}")
@@ -32,7 +33,7 @@ public class AssociaPropostaCartao {
         propostas.forEach(proposta -> {
             var request = new AssociaPropostaCartaoRequest(proposta);
             try {
-                var response = associaPropostaCartaoClient.associaCartao(request);
+                var response = apiCartoes.associaCartao(request);
                 var cartao = response.toModel(proposta);
                 proposta.adicionaCartao(cartao);
                 propostaRepository.save(proposta);
