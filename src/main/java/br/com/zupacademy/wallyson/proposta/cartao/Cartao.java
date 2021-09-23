@@ -1,5 +1,6 @@
 package br.com.zupacademy.wallyson.proposta.cartao;
 
+import br.com.zupacademy.wallyson.proposta.cartao.avisoviagem.AvisoViagem;
 import br.com.zupacademy.wallyson.proposta.cartao.bloqueiacartao.BloqueioCartao;
 import br.com.zupacademy.wallyson.proposta.proposta.Proposta;
 
@@ -33,6 +34,10 @@ public class Cartao {
 
     @OneToMany(mappedBy = "cartao", cascade = {CascadeType.MERGE, CascadeType.REMOVE})
     List<BloqueioCartao> operacoesBloqueioCartao = new ArrayList<>();
+
+    @JoinColumn(name = "cartao_id")
+    @OneToMany(cascade = CascadeType.MERGE)
+    List<AvisoViagem> avisosViagens = new ArrayList<>();
 
     @Deprecated
     public Cartao() {
@@ -72,6 +77,10 @@ public class Cartao {
     public void adicionaBloqueio(BloqueioCartao status) {
         status.alteraStatusParaBloqueado();
         this.operacoesBloqueioCartao.add(status);
+    }
+
+    public void adicionaAviso(AvisoViagem avisoViagem) {
+        this.avisosViagens.add(avisoViagem);
     }
 
     public boolean estaBloqueado() {
