@@ -1,7 +1,9 @@
 package br.com.zupacademy.wallyson.proposta.exceptionhandler;
 
-import br.com.zupacademy.wallyson.proposta.compartilhado.exceptions.ErrorResponse;
 import br.com.zupacademy.wallyson.proposta.compartilhado.exceptions.GenericException;
+import br.com.zupacademy.wallyson.proposta.compartilhado.response.ErrorMessageResponse;
+import br.com.zupacademy.wallyson.proposta.compartilhado.response.ErrorResponse;
+import feign.FeignException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -28,4 +30,11 @@ public class PropostaExceptionHandler {
     public List<ErrorResponse> registroDuplicadoException(GenericException ex) {
         return List.of(new ErrorResponse(ex.getCampo(), ex.getMensagem()));
     }
+
+    @ResponseStatus(HttpStatus.BAD_GATEWAY)
+    @ExceptionHandler(FeignException.class)
+    public ErrorMessageResponse feignException(FeignException ex) {
+        return new ErrorMessageResponse("Ocorreu um erro durante a operação. Tente novamente mais tarde");
+    }
+
 }

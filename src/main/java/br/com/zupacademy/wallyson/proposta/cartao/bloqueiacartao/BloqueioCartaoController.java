@@ -2,6 +2,9 @@ package br.com.zupacademy.wallyson.proposta.cartao.bloqueiacartao;
 
 import br.com.zupacademy.wallyson.proposta.cartao.CartaoRepository;
 import br.com.zupacademy.wallyson.proposta.compartilhado.exceptions.RegraDeNegocioException;
+import br.com.zupacademy.wallyson.proposta.utils.OfuscamentoUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -18,9 +21,14 @@ import javax.servlet.http.HttpServletRequest;
 public class BloqueioCartaoController {
 
     private final CartaoRepository cartaoRepository;
+    private final NotificaBloqueioCartaoContas notificadorBloqueio;
 
-    public BloqueioCartaoController(CartaoRepository cartaoRepository) {
+    private final Logger logger = LoggerFactory.getLogger(BloqueioCartaoController.class);
+
+    public BloqueioCartaoController(CartaoRepository cartaoRepository,
+                                    NotificaBloqueioCartaoContas notificadorBloqueio) {
         this.cartaoRepository = cartaoRepository;
+        this.notificadorBloqueio = notificadorBloqueio;
     }
 
     @ResponseStatus(HttpStatus.OK)
@@ -35,19 +43,35 @@ public class BloqueioCartaoController {
         var cartaoPertenceAoUsuarioLogado = cartao.getProposta().getDocumento().equals(documentoUsuarioLogado);
 
         if (!cartaoPertenceAoUsuarioLogado) {
+            logger.warn("Cartão {} não pertence ao usuário de documento {}",
+                    OfuscamentoUtil.cartao(cartao.getNumero()),
+                    OfuscamentoUtil.documento(documentoUsuarioLogado.toString()));
             throw new RegraDeNegocioException("cartao", "Cartão informado não pertence a esse usuário.");
         }
 
         if (cartao.estaBloqueado()) {
+            logger.warn("O cartão {} já está bloqueado", OfuscamentoUtil.cartao(cartao.getNumero()));
             throw new RegraDeNegocioException("cartao", "Este cartão já está bloqueado.");
         }
 
         if (remoteAddress.isEmpty() || userAgent.isEmpty()) {
+            logger.warn("A requisição está incompleta, não tem IP ou User-Agent.");
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
-        var operacaoBloqueioCartao = new StatusCartao(remoteAddress, userAgent, cartao);
-        cartao.adicionaBloqueio(operacaoBloqueioCartao);
-        cartaoRepository.save(cartao);
+        var requestNotificar = new NotificaBloqueioRequest("propostas");
+        var responseNotificacao = notificadorBloqueio.processar(cartao, requestNotificar);
+
+        if (responseNotificacao.getResultado() == StatusNotificacaoBloqueioCartao.BLOQUEADO) {
+            var operacaoBloqueioCartao = new BloqueioCartao(remoteAddress, userAgent, cartao);
+            cartao.adicionaBloqueio(operacaoBloqueioCartao);
+            cartaoRepository.save(cartao);
+            logger.info("Cartão {} foi bloqueado com sucesso.", OfuscamentoUtil.cartao(cartao.getNumero()));
+        } else {
+            logger.warn("Cartão {} foi bloqueado sistema legado retornou resultado diferente de BLOQUEADO",
+                    OfuscamentoUtil.cartao(cartao.getNumero()));
+            throw new ResponseStatusException(HttpStatus.BAD_GATEWAY);
+        }
+
     }
 }
