@@ -5,11 +5,13 @@ import br.com.zupacademy.wallyson.proposta.compartilhado.response.ErrorMessageRe
 import br.com.zupacademy.wallyson.proposta.compartilhado.response.ErrorResponse;
 import feign.FeignException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -41,6 +43,14 @@ public class PropostaExceptionHandler {
     @ExceptionHandler(FeignException.class)
     public ErrorMessageResponse feignException(FeignException ex) {
         return new ErrorMessageResponse("Ocorreu um erro durante a operação. Tente novamente mais tarde");
+    }
+
+    @ExceptionHandler(ResponseStatusException.class)
+    public ResponseEntity<?> responseStatusException(ResponseStatusException ex) {
+        if (ex.getReason() != null ){
+            return ResponseEntity.status(ex.getStatus()).body(new ErrorMessageResponse(ex.getReason()));
+        }
+        return ResponseEntity.status(ex.getStatus()).build();
     }
 
     @ResponseStatus(HttpStatus.BAD_GATEWAY)
