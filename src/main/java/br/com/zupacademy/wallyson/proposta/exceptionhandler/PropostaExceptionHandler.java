@@ -5,6 +5,7 @@ import br.com.zupacademy.wallyson.proposta.compartilhado.response.ErrorMessageRe
 import br.com.zupacademy.wallyson.proposta.compartilhado.response.ErrorResponse;
 import feign.FeignException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -25,6 +26,11 @@ public class PropostaExceptionHandler {
                 .collect(Collectors.toList());
     }
 
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ErrorMessageResponse httpMessageNotReadableException(HttpMessageNotReadableException ex) {
+        return new ErrorMessageResponse(ex.getMessage());
+    }
+
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     @ExceptionHandler(GenericException.class)
     public List<ErrorResponse> registroDuplicadoException(GenericException ex) {
@@ -35,6 +41,12 @@ public class PropostaExceptionHandler {
     @ExceptionHandler(FeignException.class)
     public ErrorMessageResponse feignException(FeignException ex) {
         return new ErrorMessageResponse("Ocorreu um erro durante a operação. Tente novamente mais tarde");
+    }
+
+    @ResponseStatus(HttpStatus.BAD_GATEWAY)
+    @ExceptionHandler(Exception.class)
+    public ErrorMessageResponse feignException(Exception ex) {
+        return new ErrorMessageResponse(ex.getMessage());
     }
 
 }

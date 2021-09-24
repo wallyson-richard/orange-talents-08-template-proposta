@@ -3,7 +3,10 @@ package br.com.zupacademy.wallyson.proposta.cartao.carteirasdigitais;
 import br.com.zupacademy.wallyson.proposta.cartao.ApiCartoes;
 import br.com.zupacademy.wallyson.proposta.cartao.CartaoRepository;
 import br.com.zupacademy.wallyson.proposta.compartilhado.exceptions.RegistroDuplicadoException;
+import br.com.zupacademy.wallyson.proposta.utils.OfuscamentoUtil;
 import br.com.zupacademy.wallyson.proposta.utils.UriUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +25,8 @@ public class AssociaCarteiraDigitalController {
     @Autowired
     private ApiCartoes apiCartoes;
 
+    private final Logger logger = LoggerFactory.getLogger(AssociaCarteiraDigitalController.class);
+
     @PostMapping("/{id}/carteiras")
     public ResponseEntity<?> associaPaypal(@PathVariable Long id, @RequestBody @Valid AssociaCarteiraDigitalRequest request) {
         var cartao = cartaoRepository.findById(id)
@@ -29,6 +34,8 @@ public class AssociaCarteiraDigitalController {
 
 
         if (cartao.possuiEstaCarteira(request.getCarteira())) {
+            logger.warn("O cartão {} já estado associado a carteira digital {}.",
+                    OfuscamentoUtil.cartao(cartao.getNumero()), request.getCarteira());
             throw new RegistroDuplicadoException("cartao", "Este cartão já está associado a essa carteira digital");
         }
 
@@ -39,6 +46,9 @@ public class AssociaCarteiraDigitalController {
         cartaoRepository.save(cartao);
 
         carteiraDigital = cartao.buscarCarteiraPorTipo(request.getCarteira());
+
+        logger.info("O cartao {} foi associado a carteira digital {}",
+                OfuscamentoUtil.cartao(cartao.getNumero()), carteiraDigital.getTipoCarteira());
 
         var uri = UriUtils.gerarUri(carteiraDigital.getId());
         return ResponseEntity.created(uri).build();
