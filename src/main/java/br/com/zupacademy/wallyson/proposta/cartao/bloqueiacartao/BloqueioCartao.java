@@ -22,19 +22,15 @@ public class BloqueioCartao implements Comparable<BloqueioCartao> {
     @Enumerated(EnumType.STRING)
     private StatusNotificacaoBloqueioCartao situacao;
 
-    @ManyToOne
-    private Cartao cartao;
-
     private LocalDateTime createdAt = LocalDateTime.now();
 
     @Deprecated
     public BloqueioCartao() {
     }
 
-    public BloqueioCartao(String enderecoIp, String userAgent, Cartao cartao) {
+    public BloqueioCartao(String enderecoIp, String userAgent) {
         this.enderecoIp = enderecoIp;
         this.userAgent = userAgent;
-        this.cartao = cartao;
     }
 
     public void alteraStatusParaBloqueado() {

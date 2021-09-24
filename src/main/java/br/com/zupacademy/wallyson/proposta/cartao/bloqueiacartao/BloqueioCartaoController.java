@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 
 @RestController
 public class BloqueioCartaoController {
@@ -31,10 +32,12 @@ public class BloqueioCartaoController {
         this.notificadorBloqueio = notificadorBloqueio;
     }
 
+    @Transactional
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/api/cartoes/{id}/bloqueio")
     public void bloqueiaCartao(@PathVariable Long id, HttpServletRequest request, @AuthenticationPrincipal Jwt jwt) {
         var cartao = cartaoRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
+
 
         var documentoUsuarioLogado = jwt.getClaims().get("documento");
         var remoteAddress = request.getRemoteAddr();
@@ -63,7 +66,7 @@ public class BloqueioCartaoController {
         var responseNotificacao = notificadorBloqueio.processar(cartao, requestNotificar);
 
         if (responseNotificacao.getResultado() == StatusNotificacaoBloqueioCartao.BLOQUEADO) {
-            var operacaoBloqueioCartao = new BloqueioCartao(remoteAddress, userAgent, cartao);
+            var operacaoBloqueioCartao = new BloqueioCartao(remoteAddress, userAgent);
             cartao.adicionaBloqueio(operacaoBloqueioCartao);
             cartaoRepository.save(cartao);
             logger.info("Cartão {} foi bloqueado com sucesso.", OfuscamentoUtil.cartao(cartao.getNumero()));

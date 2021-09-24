@@ -6,7 +6,7 @@ public class SituacaoFinanceiraResponse {
 
     private String documento;
     private String nome;
-    private String resultadoSolicitacao;
+    private StatusSituacaoFinanceira resultadoSolicitacao;
     private String idProposta;
 
     public String getDocumento() {
@@ -17,7 +17,7 @@ public class SituacaoFinanceiraResponse {
         return nome;
     }
 
-    public String getResultadoSolicitacao() {
+    public StatusSituacaoFinanceira getResultadoSolicitacao() {
         return resultadoSolicitacao;
     }
 
@@ -26,7 +26,7 @@ public class SituacaoFinanceiraResponse {
     }
 
     public StatusProposta statusProposta() {
-        return StatusSituacaoFinanceira.valueOf(resultadoSolicitacao).getStatusProposta();
+        return resultadoSolicitacao.getStatusProposta();
     }
 
 }
