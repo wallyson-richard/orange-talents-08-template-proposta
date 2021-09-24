@@ -6,6 +6,7 @@ import br.com.zupacademy.wallyson.proposta.cartao.avisoviagem.NotificaAvisoViage
 import br.com.zupacademy.wallyson.proposta.cartao.avisoviagem.NotificaAvisoViagemResponse;
 import br.com.zupacademy.wallyson.proposta.cartao.bloqueiacartao.NotificaBloqueioRequest;
 import br.com.zupacademy.wallyson.proposta.cartao.bloqueiacartao.NotificaBloqueioResponse;
+import br.com.zupacademy.wallyson.proposta.cartao.carteirasdigitais.AssociaCarteiraDigitalRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,4 +22,7 @@ public interface ApiCartoes {
 
     @PostMapping
     AssociaPropostaCartaoResponse associaCartao(AssociaPropostaCartaoRequest request);
+
+    @PostMapping("/{numeroCartao}/carteiras")
+    void associaCarteira(@PathVariable String numeroCartao, AssociaCarteiraDigitalRequest request);
 }
