@@ -162,7 +162,6 @@ services:
       KEYCLOAK_JWKS_URI: http://keycloak:8080/auth/realms/nosso-cartao/protocol/openid-connect/certs
       spring.profiles.active: prod
 
-
 volumes:
   grafana-volume:
   prometheus-volume:
