@@ -158,8 +158,8 @@ services:
       NOME_DA_APLICACAO: propostas
       AMBIENTE: producao
       JAEGER_ENDPOINT: http://jaeger:14268/api/traces
-      KEYCLOAK_ISSUER_URI: http://localhost:8080/auth/realms/nosso-cartao
-      KEYCLOAK_JWKS_URI: http://localhost:8080/auth/realms/nosso-cartao/protocol/openid-connect/certs
+      KEYCLOAK_ISSUER_URI: http://keycloak:8080/auth/realms/nosso-cartao
+      KEYCLOAK_JWKS_URI: http://keycloak:8080/auth/realms/nosso-cartao/protocol/openid-connect/certs
       spring.profiles.active: prod
 
 
