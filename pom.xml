@@ -56,6 +56,11 @@
             <artifactId>spring-security-oauth2-jose</artifactId>
         </dependency>
         <dependency>
+            <groupId>io.opentracing.contrib</groupId>
+            <artifactId>opentracing-spring-jaeger-cloud-starter</artifactId>
+            <version>3.2.2</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
@@ -72,7 +77,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-
     <build>
         <plugins>
             <plugin>
