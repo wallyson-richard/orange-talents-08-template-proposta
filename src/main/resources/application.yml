@@ -1,4 +1,6 @@
 spring:
+  profiles:
+    active: ${PROFILE:prod}
   datasource:
     url: ${URL_DATABASE:jdbc:postgresql://localhost:5434/proposta}
     username: ${DATABASE_USERNAME:postgres}
@@ -53,3 +55,6 @@ opentracing:
       url: ${JAEGER_ENDPOINT:http://localhost:14268/api/traces}
     probabilistic-sampler:
       sampling-rate: ${JAEGER_SAMPLER:1}
+
+secret:
+    dados-sensiveis: ${SECRET_DADOS_SENSIVEIS:F-JaNdRgUkXn2r5u8x/A?D(G+KbPeShV}

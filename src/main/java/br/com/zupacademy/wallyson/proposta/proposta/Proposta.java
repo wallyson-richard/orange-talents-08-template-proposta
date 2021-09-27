@@ -1,6 +1,7 @@
 package br.com.zupacademy.wallyson.proposta.proposta;
 
 import br.com.zupacademy.wallyson.proposta.cartao.Cartao;
+import br.com.zupacademy.wallyson.proposta.compartilhado.Encryptor;
 import br.com.zupacademy.wallyson.proposta.proposta.novaproposta.SituacaoFinanceiraClient;
 import br.com.zupacademy.wallyson.proposta.proposta.novaproposta.SituacaoFinanceiraRequest;
 import br.com.zupacademy.wallyson.proposta.proposta.novaproposta.SituacaoFinanceiraResponse;
@@ -25,6 +26,10 @@ public class Proposta {
 
     @CpfOrCnpj
     @NotBlank
+    @Convert(converter = Encryptor.class)
+//    @ColumnTransformer(
+//            read = "pgp_sym_decrypt(documento::bytea, 'secret.dados-sensiveis')",
+//            write = "pgp_sym_encrypt(?, 'secret.dados-sensiveis')")
     private String documento;
 
     @Email
