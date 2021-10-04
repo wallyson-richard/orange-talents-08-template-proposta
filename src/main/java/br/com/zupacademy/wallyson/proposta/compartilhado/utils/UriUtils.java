@@ -1,4 +1,4 @@
-package br.com.zupacademy.wallyson.proposta.utils;
+package br.com.zupacademy.wallyson.proposta.compartilhado.utils;
 
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 

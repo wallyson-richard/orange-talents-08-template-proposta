@@ -1,9 +1,10 @@
 package br.com.zupacademy.wallyson.proposta.cartao.avisoviagem;
 
 import br.com.zupacademy.wallyson.proposta.cartao.CartaoRepository;
-import br.com.zupacademy.wallyson.proposta.utils.OfuscamentoUtil;
+import br.com.zupacademy.wallyson.proposta.compartilhado.utils.OfuscamentoUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,15 +20,13 @@ import javax.validation.Valid;
 @RestController
 public class AvisoViagemController {
 
-    private final CartaoRepository cartaoRepository;
-    private final NotificaAvisoViagem notificaAvisoViagem;
+    @Autowired
+    private CartaoRepository cartaoRepository;
+
+    @Autowired
+    private NotificaAvisoViagem notificaAvisoViagem;
 
     private final Logger logger = LoggerFactory.getLogger(AvisoViagemController.class);
-
-    public AvisoViagemController(CartaoRepository cartaoRepository, NotificaAvisoViagem notificaAvisoViagem) {
-        this.cartaoRepository = cartaoRepository;
-        this.notificaAvisoViagem = notificaAvisoViagem;
-    }
 
     @PostMapping("/api/cartoes/{id}/viagem")
     @Transactional

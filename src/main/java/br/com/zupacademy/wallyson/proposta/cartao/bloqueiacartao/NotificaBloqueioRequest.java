@@ -16,7 +16,4 @@ public class NotificaBloqueioRequest {
         return sistemaResponsavel;
     }
 
-    public void setSistemaResponsavel(String sistemaResponsavel) {
-        this.sistemaResponsavel = sistemaResponsavel;
-    }
 }

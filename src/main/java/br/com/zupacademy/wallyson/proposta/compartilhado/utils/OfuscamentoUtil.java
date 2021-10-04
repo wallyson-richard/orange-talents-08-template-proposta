@@ -1,4 +1,4 @@
-package br.com.zupacademy.wallyson.proposta.utils;
+package br.com.zupacademy.wallyson.proposta.compartilhado.utils;
 
 public class OfuscamentoUtil {
 

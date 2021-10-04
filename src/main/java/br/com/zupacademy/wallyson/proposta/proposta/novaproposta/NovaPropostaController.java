@@ -1,8 +1,9 @@
 package br.com.zupacademy.wallyson.proposta.proposta.novaproposta;
 
 import br.com.zupacademy.wallyson.proposta.proposta.PropostaRepository;
-import br.com.zupacademy.wallyson.proposta.utils.UriUtils;
+import br.com.zupacademy.wallyson.proposta.compartilhado.utils.UriUtils;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,13 +18,11 @@ import java.net.URI;
 @RequestMapping("/api/propostas")
 public class NovaPropostaController {
 
-    private final PropostaRepository propostaRepository;
-    private final SituacaoFinanceiraClient situacaoFinanceiraClient;
+    @Autowired
+    private PropostaRepository propostaRepository;
 
-    public NovaPropostaController(PropostaRepository propostaRepository, SituacaoFinanceiraClient situacaoFinanceiraClient) {
-        this.propostaRepository = propostaRepository;
-        this.situacaoFinanceiraClient = situacaoFinanceiraClient;
-    }
+    @Autowired
+    private SituacaoFinanceiraClient situacaoFinanceiraClient;
 
     @PostMapping
     @Transactional

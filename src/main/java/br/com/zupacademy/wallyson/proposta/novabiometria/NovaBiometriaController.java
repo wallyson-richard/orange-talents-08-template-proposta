@@ -1,6 +1,7 @@
 package br.com.zupacademy.wallyson.proposta.novabiometria;
 
 import br.com.zupacademy.wallyson.proposta.cartao.CartaoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,13 +16,11 @@ import javax.validation.Valid;
 @RestController
 public class NovaBiometriaController {
 
-    private final CartaoRepository cartaoRepository;
-    private final BiometriaRepository biometriaRepository;
+    @Autowired
+    private CartaoRepository cartaoRepository;
 
-    public NovaBiometriaController(CartaoRepository cartaoRepository, BiometriaRepository biometriaRepository) {
-        this.cartaoRepository = cartaoRepository;
-        this.biometriaRepository = biometriaRepository;
-    }
+    @Autowired
+    private BiometriaRepository biometriaRepository;
 
     @PostMapping("/api/cartoes/{id}/biometrias")
     public ResponseEntity<?> save(@PathVariable Long id,

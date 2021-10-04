@@ -7,5 +7,5 @@ import java.util.List;
 public interface PropostaRepository extends JpaRepository<Proposta, Long> {
     List<Proposta> findByDocumento(String documento);
 
-    List<Proposta> findByStatusAndCartaoIsNull(StatusProposta statusProposta);
+    List<Proposta> findTop100ByStatusAndCartaoIsNullOrderByIdAsc(StatusProposta statusProposta);
 }

@@ -2,9 +2,10 @@ package br.com.zupacademy.wallyson.proposta.cartao.bloqueiacartao;
 
 import br.com.zupacademy.wallyson.proposta.cartao.CartaoRepository;
 import br.com.zupacademy.wallyson.proposta.compartilhado.exceptions.RegraDeNegocioException;
-import br.com.zupacademy.wallyson.proposta.utils.OfuscamentoUtil;
+import br.com.zupacademy.wallyson.proposta.compartilhado.utils.OfuscamentoUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -21,16 +22,13 @@ import javax.transaction.Transactional;
 @RestController
 public class BloqueioCartaoController {
 
-    private final CartaoRepository cartaoRepository;
-    private final NotificaBloqueioCartao notificadorBloqueio;
+    @Autowired
+    private CartaoRepository cartaoRepository;
+
+    @Autowired
+    private NotificaBloqueioCartao notificadorBloqueio;
 
     private final Logger logger = LoggerFactory.getLogger(BloqueioCartaoController.class);
-
-    public BloqueioCartaoController(CartaoRepository cartaoRepository,
-                                    NotificaBloqueioCartao notificadorBloqueio) {
-        this.cartaoRepository = cartaoRepository;
-        this.notificadorBloqueio = notificadorBloqueio;
-    }
 
     @Transactional
     @ResponseStatus(HttpStatus.OK)
@@ -43,9 +41,9 @@ public class BloqueioCartaoController {
         var remoteAddress = request.getRemoteAddr();
         var userAgent = request.getHeader(HttpHeaders.USER_AGENT);
 
-        var cartaoPertenceAoUsuarioLogado = cartao.getProposta().getDocumento().equals(documentoUsuarioLogado);
+        var cartaoNaoPertenceAoUsuarioLogado = !cartao.getProposta().getDocumento().equals(documentoUsuarioLogado);
 
-        if (!cartaoPertenceAoUsuarioLogado) {
+        if (cartaoNaoPertenceAoUsuarioLogado) {
             logger.warn("Cartão {} não pertence ao usuário de documento {}",
                     OfuscamentoUtil.cartao(cartao.getNumero()),
                     OfuscamentoUtil.documento(documentoUsuarioLogado.toString()));

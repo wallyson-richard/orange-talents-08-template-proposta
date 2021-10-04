@@ -15,6 +15,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Locale;
@@ -23,6 +24,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@Transactional
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
@@ -39,8 +41,6 @@ public class ConsultaPropostaControllerTest {
 
     @BeforeEach
     void setup() {
-        cartaoRepository.deleteAll();
-        propostaRepository.deleteAll();
     }
 
     @Test

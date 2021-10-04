@@ -3,7 +3,7 @@ package br.com.zupacademy.wallyson.proposta.proposta.novaproposta;
 import br.com.zupacademy.wallyson.proposta.compartilhado.exceptions.RegistroDuplicadoException;
 import br.com.zupacademy.wallyson.proposta.proposta.Proposta;
 import br.com.zupacademy.wallyson.proposta.proposta.PropostaRepository;
-import br.com.zupacademy.wallyson.proposta.utils.OfuscamentoUtil;
+import br.com.zupacademy.wallyson.proposta.compartilhado.utils.OfuscamentoUtil;
 import br.com.zupacademy.wallyson.proposta.validation.annotation.CpfOrCnpj;
 import org.slf4j.LoggerFactory;
 
@@ -43,8 +43,7 @@ public class NovaPropostaRequest {
 
     public Proposta toModel(PropostaRepository propostaRepository) {
         var proposta = new Proposta(documento, email, nome, endereco, salario);
-
-        if (proposta.unica(propostaRepository)) {
+        if (!proposta.unica(propostaRepository)) {
             var logger = LoggerFactory.getLogger(NovaPropostaRequest.class);
             logger.warn("O documento {} já existe em nossa base de dados,", OfuscamentoUtil.documento(proposta.getDocumento()));
             throw new RegistroDuplicadoException("documento", "Documento já existe em nossa base de dados.");

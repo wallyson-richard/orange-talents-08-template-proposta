@@ -55,7 +55,8 @@ public class PropostaExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_GATEWAY)
     @ExceptionHandler(Exception.class)
-    public ErrorMessageResponse feignException(Exception ex) {
+    public ErrorMessageResponse exception(Exception ex) {
+        ex.printStackTrace();
         return new ErrorMessageResponse(ex.getMessage());
     }
 

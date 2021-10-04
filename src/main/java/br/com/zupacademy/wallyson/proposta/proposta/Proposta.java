@@ -102,7 +102,7 @@ public class Proposta {
     }
 
     public boolean unica(PropostaRepository propostaRepository) {
-        return !propostaRepository.findByDocumento(documento).isEmpty();
+        return propostaRepository.findByDocumento(documento).isEmpty();
     }
 
     public void verificaSituacaoFinanceira(SituacaoFinanceiraClient situacaoFinanceiraClient) throws JsonProcessingException {
